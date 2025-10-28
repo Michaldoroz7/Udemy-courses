@@ -1,4 +1,4 @@
-package org.example.raceCondition;
+package org.example.raceCondition.nonAtomic;
 
 // Demonstrates race condition with shared resources in multithreading
 // Two threads incrementing and decrementing a shared inventory counter
