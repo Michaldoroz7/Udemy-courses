@@ -24,13 +24,13 @@ public class IoBoundApplication {
     }
 
     private static void performTasks() {
-        try (ExecutorService executorService = Executors.newFixedThreadPool(1000)) {
+        try (ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor()) {
 
             for (int i = 0; i < NUMBER_OF_TASKS; i++) {
                 //In this example we are submitting to run 100 blocking operations per thread which leads to longer time execution than task per thread
                 //It's because most of additional time is spent on context switching of thread when its blocked
                 //From the other side, when we are using task per thread approach it can cause application crash due to too large number of thread which are expensive in memory
-                // executorService.submit(() -> blockingIoOperation()); -> task per thread
+//                 executorService.submit(() -> blockingIoOperation());
                 executorService.submit(new Runnable() {
                     @Override
                     public void run() {
@@ -46,7 +46,7 @@ public class IoBoundApplication {
 
     //Simulates long blocking IO task
     private static void blockingIoOperation() {
-        System.out.println("Executing blocking task from thread" + Thread.currentThread().getName());
+        System.out.println("Executing blocking task from thread" + Thread.currentThread());
 
         try {
             Thread.sleep(10);
